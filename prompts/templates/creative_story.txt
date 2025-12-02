@@ -1,0 +1,1 @@
+Write the opening paragraph of a mystery novel. The setting is {setting}, featuring {protagonist_trait}. The mood should be {mood}. Create an atmospheric opening that draws readers in and establishes the mysterious tone of the story.

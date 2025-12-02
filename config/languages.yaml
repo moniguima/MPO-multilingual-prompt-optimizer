@@ -1,0 +1,166 @@
+# Language-specific cultural configuration
+# Defines cultural parameters for prompt adaptation across supported languages
+
+languages:
+  en:
+    name: English
+    code: en
+    baseline: true
+    cultural_params:
+      formality_default: neutral
+      directness: high
+      context_sensitivity: low
+      notes: "English serves as the baseline language. American English is direct and task-oriented."
+      formality_levels:
+        casual:
+          pronoun: you
+          greeting: "Hi"
+          closing: "Thanks"
+        neutral:
+          pronoun: you
+          greeting: "Hello"
+          closing: "Thank you"
+        formal:
+          pronoun: you
+          greeting: "Dear Sir/Madam"
+          closing: "Sincerely"
+
+  de:
+    name: German
+    code: de
+    variant: standard
+    cultural_params:
+      formality_default: neutral
+      directness: very_high
+      context_sensitivity: medium
+      notes: |
+        German culture values:
+        - Precision and clarity (high directness)
+        - Structured communication (clear beginning, middle, end)
+        - Appropriate formality (Sie vs. du crucial in professional contexts)
+        - Efficiency (no unnecessary small talk)
+
+      formality_levels:
+        casual:
+          pronoun: du
+          pronoun_verb: bist  # "du bist" (you are)
+          greeting: "Hallo"
+          closing: "Viele Grüße"
+          tone: "Friendly and direct, used among peers and friends"
+
+        neutral:
+          pronoun: Sie
+          pronoun_verb: sind  # "Sie sind" (you are - formal)
+          greeting: "Guten Tag"
+          closing: "Mit freundlichen Grüßen"
+          tone: "Professional standard, default for business"
+
+        formal:
+          pronoun: Sie
+          pronoun_verb: sind
+          greeting: "Sehr geehrte Damen und Herren"
+          closing: "Mit freundlichen Grüßen"
+          tone: "Formal business communication, professional and respectful"
+
+      cultural_markers:
+        - "Germans expect clear structure: greeting → purpose → request → closing"
+        - "Avoid excessive politeness padding (seen as inefficient)"
+        - "Use 'Sie' unless explicitly invited to use 'du'"
+        - "Precision valued over warmth in professional contexts"
+
+  es:
+    name: Spanish
+    code: es
+    variant: latin_american
+    cultural_params:
+      formality_default: neutral
+      directness: medium
+      context_sensitivity: high
+      notes: |
+        Latin American Spanish culture values:
+        - Personal connection (relationship before task)
+        - Warmth and cordiality (even in professional settings)
+        - Respect through formal address (usted in professional contexts)
+        - Context-rich communication (preambles establish rapport)
+
+      formality_levels:
+        casual:
+          pronoun: tú
+          pronoun_verb: eres  # "tú eres" (you are)
+          greeting: "Hola"
+          greeting_time_based:
+            morning: "Buenos días"
+            afternoon: "Buenas tardes"
+            evening: "Buenas noches"
+          closing: "Saludos"
+          closing_warm: "Un abrazo"
+          tone: "Friendly and warm, used with friends/close colleagues"
+
+        neutral:
+          pronoun: usted
+          pronoun_verb: es  # "usted es" (you are - formal)
+          greeting: "Buenos días"
+          greeting_respectful: "Estimado/a"
+          closing: "Atentamente"
+          closing_warm: "Saludos cordiales"
+          tone: "Professional with warmth, standard business"
+
+        formal:
+          pronoun: usted
+          pronoun_verb: es
+          greeting: "Estimado/a señor/señora"
+          greeting_titled: "Distinguido/a"
+          closing: "Cordialmente"
+          closing_formal: "Respetuosamente"
+          tone: "Very respectful, official/government communication"
+
+      cultural_markers:
+        - "Begin with relational preamble (e.g., 'Espero que se encuentre bien')"
+        - "Express gratitude proactively (e.g., 'Agradezco de antemano')"
+        - "Use warm language even in professional settings"
+        - "Avoid abrupt requests (build context first)"
+        - "End with well-wishes or relationship-maintaining phrases"
+
+      regional_notes:
+        - "Latin American variant prioritizes warmth over Iberian formality"
+        - "Usted is default in professional settings (unlike Spain's tú trend)"
+        - "Diminutives and warm expressions maintain rapport"
+
+# Linguistic theory references
+linguistic_framework:
+  politeness_theory:
+    reference: "Brown & Levinson (1987) - Politeness: Some Universals in Language Usage"
+    application: "Formality levels map to positive/negative politeness strategies"
+
+  hofstede_dimensions:
+    power_distance:
+      de: "Low (35) - Hierarchical but accessible, Sie maintains professional boundary"
+      es: "Medium-High (57) - Respect for authority, usted shows deference"
+      en: "Low (40) - Informal by default, formality situational"
+
+    individualism:
+      de: "High (67) - Task-focused, direct communication"
+      es: "Low-Medium (51) - Collectivist leanings, relationship-focused"
+      en: "Very High (91) - Individual-centric, efficiency-driven"
+
+  context_theory:
+    reference: "Hall (1976) - Beyond Culture"
+    low_context: ["en", "de"]  # Explicit communication, low ambiguity
+    high_context: ["es"]         # Implicit meaning, relationship-embedded
+
+# Adaptation strategy notes
+adaptation_strategies:
+  structural:
+    - "Add culturally-appropriate greetings/closings"
+    - "Adjust directness (preambles vs. immediate requests)"
+    - "Apply formality markers (pronouns, honorifics)"
+
+  content:
+    - "Reframe task-focus vs. relationship-focus"
+    - "Adjust explicitness (low-context vs. high-context)"
+    - "Modify tone (warmth vs. precision)"
+
+  validation:
+    - "Native speaker review (future phase)"
+    - "Back-translation check (future phase)"
+    - "Cultural appropriateness rubric"

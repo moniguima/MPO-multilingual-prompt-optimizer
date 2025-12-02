@@ -1,0 +1,1 @@
+I need to request an extension for the {project_name} project. The current deadline is {current_deadline}, but due to {reason}, I would like to request moving the deadline to {requested_deadline}. Could you please consider this request and let me know if this adjustment is possible?

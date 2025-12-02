@@ -1,0 +1,120 @@
+# Prompt template metadata
+# Defines the 5 seed prompts for evaluation across languages
+
+prompts:
+  business_email:
+    id: business_email
+    domain: business
+    description: "Professional request for project timeline extension due to unforeseen circumstances"
+    use_case: "Demonstrates formality adaptation in workplace communication"
+    placeholders:
+      project_name: "Q4 Marketing Campaign"
+      current_deadline: "December 15th"
+      requested_deadline: "December 22nd"
+      reason: "unexpected resource constraints"
+    file: "templates/business_email.txt"
+    expected_cultural_variations:
+      de: "Structured, direct request with clear justification (German efficiency)"
+      es: "Warm opening, relationship acknowledgment, then request (Latin American rapport)"
+      en: "Straightforward request with brief justification (American directness)"
+
+  technical_explanation:
+    id: technical_explanation
+    domain: technical
+    description: "Explain RAG (Retrieval-Augmented Generation) architecture to non-technical stakeholders"
+    use_case: "Shows how technical complexity adapts across cultural communication styles"
+    placeholders:
+      system_name: "DocumentQA"
+      audience: "executive leadership"
+      key_benefit: "reducing hallucinations by 60%"
+    file: "templates/technical_explanation.txt"
+    expected_cultural_variations:
+      de: "Precise technical terminology with logical flow (German precision)"
+      es: "Contextualized benefits before technical details (Spanish context-sensitivity)"
+      en: "Bottom-line first, then technical justification (American business style)"
+
+  creative_story:
+    id: creative_story
+    domain: creative
+    description: "Opening paragraph of a mystery novel with atmospheric setting"
+    use_case: "Demonstrates cultural narrative preferences and descriptive styles"
+    placeholders:
+      setting: "foggy London street at midnight"
+      protagonist_trait: "observant detective"
+      mood: "ominous tension"
+    file: "templates/creative_story.txt"
+    expected_cultural_variations:
+      de: "Detailed, structured scene-setting (German thoroughness)"
+      es: "Emotional atmosphere and sensory details (Spanish expressiveness)"
+      en: "Action-oriented opening with immediate intrigue (American pacing)"
+
+  persuasive_pitch:
+    id: persuasive_pitch
+    domain: persuasive
+    description: "Convince engineering team to adopt Claude Code for development workflow"
+    use_case: "Shows persuasion strategy differences across cultures"
+    placeholders:
+      tool_name: "Claude Code"
+      team_size: "15 engineers"
+      key_metric: "30% faster debugging"
+      current_pain_point: "context-switching between IDE and documentation"
+    file: "templates/persuasive_pitch.txt"
+    expected_cultural_variations:
+      de: "Data-driven, logical argumentation (German rationality)"
+      es: "Team benefits and collaboration emphasis (Spanish collectivism)"
+      en: "ROI-focused, efficiency gains (American pragmatism)"
+
+  instructional_guide:
+    id: instructional_guide
+    domain: instructional
+    description: "Teach absolute beginner how to make their first Git commit"
+    use_case: "Reveals cultural teaching styles and patience with novices"
+    placeholders:
+      skill_level: "absolute beginner, never used terminal"
+      learning_goal: "make first commit to local repository"
+      encouragement_style: "supportive and clear"
+    file: "templates/instructional_guide.txt"
+    expected_cultural_variations:
+      de: "Step-by-step precision with systematic progression (German thoroughness)"
+      es: "Encouraging tone with reassurance throughout (Spanish warmth)"
+      en: "Clear steps with minimal exposition (American efficiency)"
+
+# Evaluation criteria per domain
+evaluation_criteria:
+  business:
+    - "Appropriate formality level"
+    - "Clear request statement"
+    - "Professional tone maintenance"
+    - "Cultural politeness markers"
+
+  technical:
+    - "Clarity for target audience"
+    - "Appropriate level of detail"
+    - "Logical flow"
+    - "Cultural communication preferences"
+
+  creative:
+    - "Atmospheric coherence"
+    - "Cultural narrative conventions"
+    - "Descriptive richness"
+    - "Pacing and structure"
+
+  persuasive:
+    - "Argument structure (data vs. emotion)"
+    - "Cultural persuasion strategies"
+    - "Tone appropriateness"
+    - "Call-to-action clarity"
+
+  instructional:
+    - "Step clarity for novices"
+    - "Cultural teaching style"
+    - "Encouragement vs. directness balance"
+    - "Completeness without overwhelm"
+
+# Benchmark configuration
+benchmark:
+  languages: ["en", "de", "es"]
+  formality_levels: ["casual", "neutral", "formal"]
+  total_variants: 45  # 5 prompts × 3 languages × 3 formality = 45 evaluations
+  estimated_tokens_per_response: 500
+  estimated_cost_usd: 1.50  # Approximate for Claude Sonnet

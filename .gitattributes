@@ -1,0 +1,203 @@
+# .gitattributes - Git attribute configuration for Multilingual Prompt Optimizer
+
+# Auto-detect text files and normalize line endings to LF
+* text=auto eol=lf
+
+###############################################################################
+# Source Code
+###############################################################################
+
+# Python source files
+*.py text eol=lf diff=python
+*.pyx text eol=lf diff=python
+*.pyw text eol=lf diff=python
+*.pyi text eol=lf diff=python
+
+# Python compiled files (binary)
+*.pyc binary
+*.pyo binary
+*.pyd binary
+
+###############################################################################
+# Configuration Files
+###############################################################################
+
+# YAML files
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# JSON files
+*.json text eol=lf
+
+# TOML files
+*.toml text eol=lf
+
+# Environment files
+.env* text eol=lf
+*.env text eol=lf
+
+# INI files
+*.ini text eol=lf
+*.cfg text eol=lf
+
+###############################################################################
+# Documentation
+###############################################################################
+
+# Markdown
+*.md text eol=lf diff=markdown
+*.markdown text eol=lf diff=markdown
+
+# ReStructuredText
+*.rst text eol=lf
+
+# Plain text
+*.txt text eol=lf
+LICENSE text eol=lf
+AUTHORS text eol=lf
+CONTRIBUTORS text eol=lf
+
+###############################################################################
+# Web Assets (if used for UI)
+###############################################################################
+
+# HTML
+*.html text eol=lf diff=html
+*.htm text eol=lf diff=html
+
+# CSS
+*.css text eol=lf diff=css
+*.scss text eol=lf diff=css
+*.sass text eol=lf diff=css
+
+# JavaScript
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+
+###############################################################################
+# Data Files
+###############################################################################
+
+# CSV
+*.csv text eol=lf
+
+# TSV
+*.tsv text eol=lf
+
+# Tab-separated
+*.tab text eol=lf
+
+###############################################################################
+# Scripts
+###############################################################################
+
+# Shell scripts
+*.sh text eol=lf
+*.bash text eol=lf
+*.zsh text eol=lf
+
+# Batch files (Windows)
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+###############################################################################
+# Jupyter Notebooks
+###############################################################################
+
+# Notebooks - store as text but don't diff (large, generated content)
+*.ipynb text linguist-documentation
+
+###############################################################################
+# Images (Binary)
+###############################################################################
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text
+*.webp binary
+
+###############################################################################
+# Archives (Binary)
+###############################################################################
+
+*.zip binary
+*.tar binary
+*.gz binary
+*.bz2 binary
+*.7z binary
+*.rar binary
+
+###############################################################################
+# Fonts (Binary)
+###############################################################################
+
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+
+###############################################################################
+# Export Settings (files to exclude from archives)
+###############################################################################
+
+# Development and testing files
+.gitignore export-ignore
+.gitattributes export-ignore
+.github/ export-ignore
+.vscode/ export-ignore
+.idea/ export-ignore
+
+# Test and coverage files
+tests/ export-ignore
+.pytest_cache/ export-ignore
+.coverage export-ignore
+htmlcov/ export-ignore
+*.egg-info/ export-ignore
+
+# Documentation sources (keep built docs, exclude sources)
+docs/file_structure.md export-ignore
+
+# Development tools
+.pre-commit-config.yaml export-ignore
+.pylintrc export-ignore
+.flake8 export-ignore
+
+###############################################################################
+# Language Statistics (linguist overrides)
+###############################################################################
+
+# Mark config files as data (not code)
+config/*.yaml linguist-language=YAML linguist-detectable
+prompts/**/*.txt linguist-language=Text linguist-documentation
+
+# Mark test files
+tests/** linguist-documentation
+
+# Mark example/demo files
+notebooks/** linguist-documentation
+
+# Reports are generated content
+reports/** linguist-generated
+
+# Cache files are generated
+data/cache/** linguist-generated
+
+###############################################################################
+# Diff Settings
+###############################################################################
+
+# Don't diff generated files
+*.min.js -diff
+*.min.css -diff
+package-lock.json -diff
+poetry.lock -diff
+
+# Better diff for specific files
+*.ipynb diff=jupyternotebook

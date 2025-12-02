@@ -1,0 +1,103 @@
+# LLM model configuration
+# Defines settings for different LLM providers and models
+
+providers:
+  anthropic:
+    name: "Anthropic"
+    api_key_env: "ANTHROPIC_API_KEY"
+    base_url: "https://api.anthropic.com"
+
+    models:
+      sonnet:
+        id: "claude-sonnet-4-20250514"
+        display_name: "Claude Sonnet 4"
+        context_window: 200000
+        max_output_tokens: 8192
+        cost_per_million_input_tokens: 3.00
+        cost_per_million_output_tokens: 15.00
+        recommended_use: "Production evaluations, high-quality responses"
+
+      haiku:
+        id: "claude-haiku-4-20250514"
+        display_name: "Claude Haiku 4"
+        context_window: 200000
+        max_output_tokens: 8192
+        cost_per_million_input_tokens: 0.80
+        cost_per_million_output_tokens: 4.00
+        recommended_use: "Development testing, cost-conscious evaluations"
+
+    default_model: "sonnet"
+
+  openai:
+    name: "OpenAI"
+    api_key_env: "OPENAI_API_KEY"
+    base_url: "https://api.openai.com/v1"
+
+    models:
+      gpt4:
+        id: "gpt-4-turbo-preview"
+        display_name: "GPT-4 Turbo"
+        context_window: 128000
+        max_output_tokens: 4096
+        cost_per_million_input_tokens: 10.00
+        cost_per_million_output_tokens: 30.00
+        recommended_use: "Comparative analysis (future phase)"
+
+    default_model: "gpt4"
+    enabled: false  # Not implemented in MVP
+
+# Default generation parameters
+generation_defaults:
+  temperature: 0.7
+  max_tokens: 1024
+  top_p: 1.0
+  stop_sequences: []
+
+# Generation configs by use case
+generation_configs:
+  creative:
+    temperature: 0.9
+    max_tokens: 1500
+    top_p: 0.95
+    note: "Higher temperature for creative diversity"
+
+  technical:
+    temperature: 0.5
+    max_tokens: 1200
+    top_p: 0.9
+    note: "Lower temperature for factual accuracy"
+
+  business:
+    temperature: 0.7
+    max_tokens: 800
+    top_p: 1.0
+    note: "Balanced parameters for professional tone"
+
+  persuasive:
+    temperature: 0.8
+    max_tokens: 1000
+    top_p: 0.95
+    note: "Slightly higher temperature for engaging language"
+
+  instructional:
+    temperature: 0.6
+    max_tokens: 1200
+    top_p: 0.9
+    note: "Lower temperature for clarity and consistency"
+
+# Demo mode settings
+demo_mode:
+  enabled: true
+  cache_directory: "data/cache"
+  fallback_behavior: "error"  # Options: "error" (fail if no cache), "warn" (proceed with warning)
+  cache_version: "1.0.0"
+  note: "Demo mode uses pre-generated responses to avoid API costs"
+
+# Evaluation settings
+evaluation:
+  retry_attempts: 3
+  retry_delay_seconds: 2
+  timeout_seconds: 60
+  rate_limit_delay_ms: 500
+  batch_size: 5
+  log_level: "INFO"

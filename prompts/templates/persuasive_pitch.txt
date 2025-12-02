@@ -1,0 +1,1 @@
+I want to propose that our team of {team_size} adopt {tool_name} for our development workflow. This tool addresses our {current_pain_point} problem and can deliver {key_metric}. Write a compelling pitch that will convince the team to try this new tool.

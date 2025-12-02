@@ -1,0 +1,1 @@
+Teach a {skill_level} how to {learning_goal}. They have never used a terminal before, so explain every step clearly. Use a {encouragement_style} tone to help them feel confident. Start from the very basics and guide them through the complete process.

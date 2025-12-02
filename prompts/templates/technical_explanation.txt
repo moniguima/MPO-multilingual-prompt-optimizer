@@ -1,0 +1,1 @@
+Explain how our {system_name} system works to {audience}. The system uses Retrieval-Augmented Generation (RAG) architecture, which combines a knowledge base with a language model. The key benefit is {key_benefit}, making the system more reliable for critical business decisions. Please provide a clear explanation that helps them understand the value without getting too technical.
