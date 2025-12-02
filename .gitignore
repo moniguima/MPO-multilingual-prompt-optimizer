@@ -67,6 +67,7 @@ data/cache/*
 !data/cache/responses/.gitkeep
 
 # Reports (generated files)
+reports/*.html
 reports/*.pdf
 !reports/.gitkeep
 
