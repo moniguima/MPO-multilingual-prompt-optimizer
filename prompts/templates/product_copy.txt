@@ -1,0 +1,1 @@
+Write product copy for {product_name}, a {product_category} designed for {target_customer}. Emphasize the key features: {feature_1}, {feature_2}, and {feature_3}. The copy should convey {brand_voice} and differentiate from competitors by highlighting {unique_value_proposition}.

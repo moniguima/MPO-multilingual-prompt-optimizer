@@ -66,6 +66,9 @@ data/cache/*
 !data/cache/prompts/.gitkeep
 !data/cache/responses/.gitkeep
 
+# Notebooks
+notebooks/test_cultural_adaptation.ipynb
+
 # Reports (generated files)
 reports/*.html
 reports/*.pdf

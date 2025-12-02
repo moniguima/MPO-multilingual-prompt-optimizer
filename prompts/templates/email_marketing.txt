@@ -1,0 +1,1 @@
+Create a marketing email for {campaign_name} targeting {audience_segment}. The email should promote {product_or_offer} with a subject line that emphasizes {hook}. Include {number_of_benefits} key benefits and a clear call-to-action to {desired_action}. The tone should be {tone_style}.

@@ -1,0 +1,1 @@
+Create an in-app message to encourage {user_segment} users to {desired_action}. The message should highlight {key_benefit} and address the pain point of {user_problem}. The tone should be {tone_style} and include a clear call-to-action.

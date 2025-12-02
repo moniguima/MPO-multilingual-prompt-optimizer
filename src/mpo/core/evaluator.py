@@ -96,16 +96,37 @@ class PromptEvaluator:
         # Build formality instruction
         formality_note = get_formality_guidance(variant.formality.value)
 
-        instructed_prompt = f"""You are a professional writer. Generate the complete text for the following request in {target_language}.
+        # Build example for few-shot learning
+        example_input = """Hola
 
-Requirements:
-- Write in perfect, grammatically correct {target_language}
-- {formality_note}
-- Include ALL parts: greeting, body, and closing
-- Output the final text ready to send, not a response about the text
-- Ensure all verb conjugations and grammar are correct
+¿Qué tal? Te escribo porque:
+I need your help with something urgent.
 
-{variant.adapted_content}"""
+Gracias
+Saludos"""
+
+        example_output = """Hola
+
+¿Qué tal? Te escribo porque:
+Necesito tu ayuda con algo urgente.
+
+Gracias
+Saludos"""
+
+        instructed_prompt = f"""Task: Translate ONLY English sentences to {target_language}. Copy all {target_language} text exactly as-is, including line breaks.
+
+Example:
+Input:
+{example_input}
+
+Output:
+{example_output}
+
+Now translate this text ({formality_note}):
+Input:
+{variant.adapted_content}
+
+Output:"""
 
         # Generate response from LLM
         result = self.provider.generate(instructed_prompt, config)

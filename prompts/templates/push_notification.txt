@@ -1,0 +1,1 @@
+Write a compelling push notification for {product_name} to promote {feature_or_offer}. The target audience is {target_audience}. The message should create urgency around {time_constraint} and drive users to {desired_action}. Keep it under {character_limit} characters.

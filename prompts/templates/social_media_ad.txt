@@ -1,0 +1,1 @@
+Write social media ad copy for {platform} promoting {product_or_service} to {target_demographic}. The ad should grab attention with {opening_hook}, showcase {key_benefit}, and include a call-to-action to {desired_action}. Keep it engaging and under {character_limit} characters.
