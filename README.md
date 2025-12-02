@@ -13,8 +13,8 @@
 **For Non-Technical Viewers:**
 
 👉 **[Try Interactive Demo](#)** (coming soon: Gradio on HuggingFace Spaces).   
-📊 **[View Sample Report](reports/)** (generated comparison charts).   
-📓 **[Interactive Notebook](notebooks/demo.ipynb)** (narrative walkthrough with results).  
+📊 **[View Sample Report](reports/business_email_report.html)** (generated comparison charts).   
+📓 **[Interactive Notebook](notebooks/demo_walkthrough.ipynb)** (narrative walkthrough with results).  
 
 ### Key Findings
 
