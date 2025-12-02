@@ -68,6 +68,7 @@ data/cache/*
 
 # Notebooks
 notebooks/test_cultural_adaptation.ipynb
+notebooks/learn_cultural_adaptation.ipynb
 
 # Reports (generated files)
 reports/*.html
