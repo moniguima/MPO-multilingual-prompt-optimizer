@@ -47,6 +47,8 @@ def cli():
     pass
 
 
+# Usage examples:
+#   mpo init                          # Initialize project and check configuration
 @cli.command()
 def init():
     """Initialize MPO project structure and configuration."""
@@ -72,16 +74,8 @@ def init():
     env_file = Path(".env")
     if not env_file.exists():
         click.echo(click.style("⚠️  No .env file found", fg="yellow"))
-        click.echo("Creating .env from .env.example...")
-
-        example_env = Path(".env.example")
-        if example_env.exists():
-            import shutil
-            shutil.copy(example_env, env_file)
-            click.echo(click.style("✅ Created .env file", fg="green"))
-            click.echo("\nPlease edit .env and add your ANTHROPIC_API_KEY")
-        else:
-            click.echo(click.style("❌ .env.example not found", fg="red"))
+        click.echo("Please create a .env file with your API keys")
+        click.echo("You can copy from .env.example if available")
 
     # Create cache manager to initialize cache structure
     cache = CacheManager(str(CACHE_DIR))
@@ -89,10 +83,16 @@ def init():
     click.echo(click.style("\n✅ Initialization complete!", fg="green"))
     click.echo("\nNext steps:")
     click.echo("  1. Add your API key to .env file")
-    click.echo("  2. Try: mpo test business_email --demo")
-    click.echo("  3. Or run: mpo benchmark --demo")
+    click.echo("  2. Try: mpo test business_email")
+    click.echo("  3. Or run: mpo benchmark")
 
 
+# Usage examples:
+#   mpo test business_email                              # Test in demo mode (default)
+#   mpo test business_email --live                       # Test with live API
+#   mpo test business_email -l de -f formal              # Test German formal variant
+#   mpo test persuasive_pitch -l es --provider anthropic --live  # Live test with Claude
+#   mpo test technical_explanation -o results.json       # Save output to file
 @cli.command()
 @click.argument('prompt_id')
 @click.option('--language', '-l', default='en', help='Target language (en, de, es)')
@@ -103,9 +103,8 @@ def init():
               type=click.Choice(['anthropic', 'openai', 'local', 'mock']),
               help='LLM provider (anthropic=Claude, openai=GPT, local=LMStudio, mock=testing)')
 @click.option('--live', is_flag=True, help='Use live API (requires API key)')
-@click.option('--demo', is_flag=True, help='Use cached responses (demo mode)')
 @click.option('--output', '-o', help='Output file path (optional)')
-def test(prompt_id: str, language: str, formality: str, provider: str, live: bool, demo: bool, output: Optional[str]):
+def test(prompt_id: str, language: str, formality: str, provider: str, live: bool, output: Optional[str]):
     """Test a prompt with cultural adaptation."""
 
     # Load configurations
@@ -165,7 +164,7 @@ def test(prompt_id: str, language: str, formality: str, provider: str, live: boo
     # Get or generate response
     cache = CacheManager(str(CACHE_DIR))
 
-    if demo or (not live and not demo):
+    if not live:
         # Use cached response
         response = cache.get_cached_response(prompt_id, language, formality)
 
@@ -271,18 +270,21 @@ def test(prompt_id: str, language: str, formality: str, provider: str, live: boo
         click.echo(click.style(f"\n💾 Saved to: {output_path}", fg="green"))
 
 
+# Usage examples:
+#   mpo benchmark                     # Run benchmark in demo mode (default, free)
+#   mpo benchmark --live              # Run benchmark with live API (costs ~$3-4)
+#   mpo benchmark --provider openai --live  # Use OpenAI instead of default
 @cli.command()
 @click.option('--provider', '-p', default='local',
               type=click.Choice(['anthropic', 'openai', 'local', 'mock']),
               help='LLM provider (anthropic=Claude, openai=GPT, local=LMStudio, mock=testing)')
 @click.option('--live', is_flag=True, help='Use live API (costs money!)')
-@click.option('--demo', is_flag=True, help='Use mock provider (free)')
-def benchmark(provider: str, live: bool, demo: bool):
+def benchmark(provider: str, live: bool):
     """Run full benchmark across all prompts, languages, and formality levels."""
 
     if live:
-        click.echo(click.style("⚠️  WARNING: Live mode will make ~45 API calls", fg="yellow"))
-        click.echo("Estimated cost: $1-2 USD")
+        click.echo(click.style("⚠️  WARNING: Live mode will make ~90 API calls", fg="yellow"))
+        click.echo("Estimated cost: $3-4 USD")
         if not click.confirm("Continue?"):
             return
 
@@ -299,7 +301,7 @@ def benchmark(provider: str, live: bool, demo: bool):
     # Initialize provider
     llm_provider = None
 
-    if demo:
+    if not live:
         # Override provider selection for demo mode
         llm_provider = MockAnthropicProvider()
         click.echo(click.style("🎭 Using mock provider (demo mode)", fg="cyan"))
@@ -339,7 +341,7 @@ def benchmark(provider: str, live: bool, demo: bool):
         languages=SUPPORTED_LANGUAGES[:3],  # Use first 3 languages (en, de, es)
         formality_levels=FORMALITY_LEVELS,
         model=llm_provider.default_model,
-        demo_mode=demo
+        demo_mode=not live
     )
 
     experiment = tracker.create_experiment(
@@ -424,6 +426,9 @@ def benchmark(provider: str, live: bool, demo: bool):
     click.echo(f"\nNext: mpo report {list(prompts_config['prompts'].keys())[0]}")
 
 
+# Usage examples:
+#   mpo report business_email         # Generate text report for prompt
+#   mpo report creative_story         # Compare all language variants
 @cli.command()
 @click.argument('prompt_id')
 def report(prompt_id: str):
@@ -470,9 +475,12 @@ def report(prompt_id: str):
             else:
                 click.echo(f"{lang:8} | {formal:9} | ❌     | -     | -")
 
-    click.echo(f"\n💡 Tip: Run 'mpo benchmark --demo' to generate all cached responses")
+    click.echo(f"\n💡 Tip: Run 'mpo benchmark' to generate all cached responses")
 
 
+# Usage examples:
+#   mpo html-report business_email                    # Generate HTML report
+#   mpo html-report product_copy -o reports/my.html   # Custom output path
 @cli.command('html-report')
 @click.argument('prompt_id')
 @click.option('--output', '-o', help='Output file path (default: reports/{prompt_id}_report.html)')
@@ -508,6 +516,8 @@ def html_report(prompt_id: str, output: Optional[str]):
         raise
 
 
+# Usage examples:
+#   mpo list-prompts                  # Show all available prompt templates
 @cli.command()
 def list_prompts():
     """List all available prompt templates."""
@@ -524,6 +534,8 @@ def list_prompts():
         click.echo()
 
 
+# Usage examples:
+#   mpo cache-status                  # Show cache statistics and validation
 @cli.command()
 def cache_status():
     """Show cache statistics."""

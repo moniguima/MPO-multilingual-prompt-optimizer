@@ -79,6 +79,99 @@ prompts:
       es: "Encouraging tone with reassurance throughout (Spanish warmth)"
       en: "Clear steps with minimal exposition (American efficiency)"
 
+  push_notification:
+    id: push_notification
+    domain: persuasive
+    description: "Mobile push notification to drive user engagement with time-sensitive offers"
+    use_case: "Shows cultural differences in urgency creation and brevity in mobile contexts"
+    placeholders:
+      product_name: "FitTrack Pro"
+      feature_or_offer: "new streak rewards feature"
+      target_audience: "active fitness app users"
+      time_constraint: "24-hour double points promotion"
+      desired_action: "open app and start workout"
+      character_limit: "120"
+    file: "templates/push_notification.txt"
+    expected_cultural_variations:
+      de: "Direct value proposition with clear deadline (German efficiency)"
+      es: "Motivational tone with community emphasis (Spanish encouragement)"
+      en: "Action-focused with FOMO trigger (American urgency)"
+
+  in_app_message:
+    id: in_app_message
+    domain: persuasive
+    description: "In-app message to guide users toward key product actions"
+    use_case: "Demonstrates cultural approaches to user onboarding and feature adoption"
+    placeholders:
+      user_segment: "new trial users"
+      desired_action: "complete their profile setup"
+      key_benefit: "personalized workout recommendations"
+      user_problem: "generic, one-size-fits-all routines"
+      tone_style: "friendly and encouraging"
+    file: "templates/in_app_message.txt"
+    expected_cultural_variations:
+      de: "Benefit-focused with systematic steps (German clarity)"
+      es: "Warm encouragement with personal touch (Spanish rapport)"
+      en: "Quick value explanation with CTA (American directness)"
+
+  product_copy:
+    id: product_copy
+    domain: persuasive
+    description: "Product landing page copy emphasizing unique value proposition"
+    use_case: "Reveals cultural preferences in product positioning and feature emphasis"
+    placeholders:
+      product_name: "CodeMentor AI"
+      product_category: "AI-powered code review tool"
+      target_customer: "development teams using GitHub"
+      feature_1: "real-time bug detection"
+      feature_2: "context-aware refactoring suggestions"
+      feature_3: "automated documentation generation"
+      brand_voice: "professional yet approachable"
+      unique_value_proposition: "understanding entire codebase context, not just individual files"
+    file: "templates/product_copy.txt"
+    expected_cultural_variations:
+      de: "Feature-rich technical detail with precision (German thoroughness)"
+      es: "Team collaboration benefits emphasized (Spanish collectivism)"
+      en: "Efficiency gains and ROI focus (American pragmatism)"
+
+  email_marketing:
+    id: email_marketing
+    domain: persuasive
+    description: "Marketing email campaign with subject line and clear CTA"
+    use_case: "Shows cultural email marketing conventions and persuasion sequences"
+    placeholders:
+      campaign_name: "Spring Product Launch"
+      audience_segment: "existing customers who haven't upgraded"
+      product_or_offer: "new Premium tier with AI features"
+      hook: "exclusive early access discount"
+      number_of_benefits: "three"
+      desired_action: "schedule a demo"
+      tone_style: "professional but warm"
+    file: "templates/email_marketing.txt"
+    expected_cultural_variations:
+      de: "Structured email with clear sections (German organization)"
+      es: "Relationship-focused opener before pitch (Spanish warmth)"
+      en: "Subject line optimized for open rates (American marketing)"
+
+  social_media_ad:
+    id: social_media_ad
+    domain: persuasive
+    description: "Short-form social media advertisement with attention-grabbing hook"
+    use_case: "Demonstrates platform-specific cultural adaptation for viral potential"
+    placeholders:
+      platform: "LinkedIn"
+      product_or_service: "Claude Code AI assistant"
+      target_demographic: "software engineers aged 25-40"
+      opening_hook: "Stop switching between your IDE and documentation"
+      key_benefit: "30% faster debugging with AI that understands your entire codebase"
+      desired_action: "start free trial"
+      character_limit: "150"
+    file: "templates/social_media_ad.txt"
+    expected_cultural_variations:
+      de: "Professional credibility signals (German trust-building)"
+      es: "Community proof and peer success stories (Spanish social validation)"
+      en: "Bold claims with immediate hook (American attention-grabbing)"
+
 # Evaluation criteria per domain
 evaluation_criteria:
   business:
@@ -115,6 +208,6 @@ evaluation_criteria:
 benchmark:
   languages: ["en", "de", "es"]
   formality_levels: ["casual", "neutral", "formal"]
-  total_variants: 45  # 5 prompts × 3 languages × 3 formality = 45 evaluations
+  total_variants: 90  # 10 prompts × 3 languages × 3 formality = 90 evaluations
   estimated_tokens_per_response: 500
-  estimated_cost_usd: 1.50  # Approximate for Claude Sonnet
+  estimated_cost_usd: 3.00  # Approximate for Claude Sonnet
