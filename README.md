@@ -36,9 +36,10 @@ Most multilingual LLM applications use **naive translation** of prompts, ignorin
 - ❌ Ignoring cultural context preferences (German directness vs. Spanish warmth)
 
 ### The Solution
-**MPO** applies cultural adaptation **beyond translation**:
-- ✅ Appropriate formality markers (pronouns, honorifics)
-- ✅ Structural conventions (greetings, preambles, closings)
+**MPO** applies cultural adaptation **beyond translation** using a **two-phase hybrid strategy**:
+- ✅ **Phase 1 (Programmatic)**: Structural elements (greetings, pronouns, preambles, closings)
+- ✅ **Phase 2 (LLM Refinement)**: Cultural nuance (tone, argumentation patterns, idioms)
+- ✅ Appropriate formality markers (Sie/du, usted/tú)
 - ✅ Context-sensitivity (relationship-building vs. task-focus)
 
 ### The Impact
@@ -117,19 +118,32 @@ For detailed LMStudio setup, see [docs/LMSTUDIO_SETUP.md](docs/LMSTUDIO_SETUP.md
 multilingual-prompt-optimizer/
 ├── src/mpo/
 │   ├── core/              # Prompt templates, adapters, evaluator
+│   │   ├── adapter.py     # Base adapter with 2-phase orchestration
+│   │   └── adaptation_config.py  # Hybrid adaptation configuration
+│   ├── adapters/          # Language-specific cultural adapters
+│   │   ├── de_adapter.py  # German: Sachlichkeit + deductive pattern
+│   │   ├── es_adapter.py  # Spanish: Confianza + inductive pattern
+│   │   └── en_adapter.py  # English: Directness + efficiency
 │   ├── providers/         # LLM API wrappers (Anthropic Claude)
 │   ├── metrics/           # Quantitative & qualitative evaluation
 │   ├── storage/           # Cache manager, experiment tracker
 │   ├── cli/               # Click-based CLI
 │   └── ui/                # Gradio demo interface
 ├── config/                # Language configs, prompt metadata
+│   └── languages.yaml     # Cultural params + LLM adaptation configs
 ├── prompts/templates/     # 5 seed prompts (business, technical, etc.)
 ├── data/cache/            # Pre-generated demo responses
 └── tests/                 # pytest suite
 ```
 
+**Two-Phase Adaptation Flow:**
+1. **Phase 1 (Programmatic)**: Fast, deterministic structural adaptations (greetings, pronouns, preambles)
+2. **Phase 2 (LLM Refinement)**: Context-aware cultural nuance (tone, argumentation, idioms)
+3. **Fallback**: If LLM unavailable, Phase 1 output still culturally appropriate
+
 **Design Patterns Used:**
 - **Strategy Pattern**: Language-specific adapters
+- **Template Method**: Two-phase orchestration in base adapter
 - **Dependency Injection**: Swappable LLM providers
 - **Repository Pattern**: Flexible storage backends
 - **Factory Pattern**: Adapter instantiation
@@ -258,27 +272,38 @@ mpo cache-status
 
 ## 🔬 Linguistic Framework
 
-This project applies established communication theories:
+This project applies established communication theories through a **two-phase hybrid adaptation system**:
 
-### Politeness Theory
-Brown & Levinson (1987) - [DOI: 10.1017/CBO9780511813085](https://doi.org/10.1017/CBO9780511813085)
+### Phase 1: Programmatic Adaptation (Structural)
+Rule-based transformations for predictable elements:
+- Greetings, closings, pronouns (Sie/du, usted/tú)
+- Formality scaffolding based on linguistic theory
+- Fast, deterministic, and transparent
+
+### Phase 2: LLM Refinement (Cultural Nuance)
+AI-enhanced adaptation for complex elements:
+- Tone, argumentation patterns, idiomatic expression
+- Context-aware cultural markers
+- Guided by linguistic principles embedded in LLM instructions
+
+### Theoretical Foundation
+
+**Politeness Theory** - Brown & Levinson (1987) - [DOI: 10.1017/CBO9780511813085](https://doi.org/10.1017/CBO9780511813085)
 - Positive politeness (solidarity, warmth) → Spanish casual
 - Negative politeness (respect, distance) → German formal
 
-### Hofstede's Cultural Dimensions
-Hofstede (2001) - ISBN: 978-0803973244
+**Hofstede's Cultural Dimensions** - Hofstede (2001) - ISBN: 978-0803973244
 - **Power Distance**: German (low) vs. Spanish (medium-high) → formality expectations
 - **Individualism**: English (very high) → task-focus vs. Spanish collectivism → relationship-focus
 
-### High/Low Context Communication
-Hall (1976) - ISBN: 0385124740
+**High/Low Context Communication** - Hall (1976) - ISBN: 0385124740
 - **Low Context** (English, German): Explicit, direct → minimal preambles
 - **High Context** (Spanish): Implicit, relationship-embedded → warm openings
 
-**Application:**
-- German formal → "Sie" + structured request (efficiency-driven)
-- Spanish formal → "usted" + well-being inquiry + gratitude (relationship-driven)
-- English → baseline directness (task-oriented)
+**Hybrid Application:**
+- **German**: Phase 1 adds "Sie" + structured scaffolding → Phase 2 applies Sachlichkeit + deductive patterns
+- **Spanish**: Phase 1 adds "usted" + relational preamble → Phase 2 applies calidez + inductive patterns
+- **English**: Phase 1 minimal structure → Phase 2 refines for directness + efficiency
 
 ---
 

@@ -42,27 +42,54 @@ Clear boundaries between:
 Need to transform prompts beyond simple translation to account for cultural communication norms.
 
 **Decision:**
-Use **rule-based cultural adaptation** with language-specific adapter classes.
+Use **hybrid adaptation strategy** combining deterministic programmatic rules with LLM-based cultural refinement.
 
 **Rationale:**
+This two-phase approach leverages the strengths of both programmatic and LLM-based adaptation:
+
+**Phase 1: Programmatic Adaptation (Structural)**
 - **Pros:**
-  - Deterministic and explainable 
-  - No additional API costs at runtime
+  - Deterministic and explainable
+  - Zero runtime costs
+  - Fast (no API calls)
   - Easy to version control and document
-  - Transparent transformation rules
+  - Reliable for structural elements (greetings, closings, pronouns)
 - **Cons:**
-  - Requires manual rule creation
-  - May miss subtle nuances (vs. LLM-assisted adaptation)
+  - Limited to predefined rules
+  - Cannot handle nuanced cultural expression
+
+**Phase 2: LLM Refinement (Cultural Nuance)**
+- **Pros:**
+  - Handles subtle cultural nuances (tone, argumentation patterns, idioms)
+  - Context-aware adaptations
+  - More natural-sounding output
+  - Adapts to domain-specific requirements
+- **Cons:**
+  - Additional API cost (~$0.002-0.01 per adaptation)
+  - Slight latency (~1-2 seconds)
+  - Non-deterministic (mitigated by low temperature=0.3)
+
+**Combined Benefits:**
+- Best of both worlds: structural consistency + cultural nuance
+- Graceful degradation: Falls back to programmatic if LLM unavailable
+- Cost-effective: Only LLM-refines after efficient programmatic scaffolding
+- Transparent: Clear separation between rule-based and AI-enhanced adaptation
 
 **Alternatives Considered:**
-1. LLM-assisted adaptation (expensive, non-deterministic)
-2. Translation API + post-processing (lacks cultural depth)
-3. Fine-tuned models (high complexity)
+1. Programmatic-only (original approach) - lacks cultural nuance for complex adaptations
+2. LLM-only adaptation - expensive, loses deterministic structure, harder to debug
+3. Translation API + post-processing - lacks cultural depth
+4. Fine-tuned models - high complexity, inflexible
 
 **Implementation:**
-- Abstract `CulturalAdapter` base class
-- Language-specific subclasses (GermanAdapter, SpanishAdapter)
+- Abstract `CulturalAdapter` base class with two-phase orchestration
+- Language-specific subclasses (EnglishAdapter, GermanAdapter, SpanishAdapter)
+- Each adapter implements:
+  - `_apply_programmatic_adaptations()`: Structural scaffolding
+  - `_build_llm_adaptation_prompt()`: Cultural refinement instructions
 - Configuration-driven parameters (languages.yaml)
+- Optional LLM provider passed to adapters
+- Automatic mode selection based on config + provider availability
 
 ---
 

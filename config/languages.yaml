@@ -25,6 +25,64 @@ languages:
           greeting: "Dear Sir/Madam"
           closing: "Sincerely"
 
+    # LLM-based hybrid adaptation (Phase 2 refinement)
+    llm_adaptation:
+      enabled: true
+      strategy: hybrid_sequential
+      temperature: 0.3  # Low for consistent, predictable refinements
+      max_tokens: 2048
+
+      transformation_instructions:
+        tone:
+          formal: "Professional but not stiff. Clear, respectful, and action-oriented."
+          neutral: "Standard professional communication. Balanced and clear."
+          casual: "Conversational yet professional. Friendly and approachable."
+
+        directness:
+          level: high
+          guidance: "Be direct and concise. Get to the point quickly. Americans value efficiency."
+
+        argumentation_pattern: direct  # Point first, then brief supporting details
+
+        context_sensitivity:
+          level: low
+          guidance: "Low-context culture. Be explicit. Don't assume shared understanding."
+
+        domain_specific:
+          business: "Results-oriented. ROI and efficiency focus. Clear action items."
+          technical: "Precise but accessible. Avoid jargon unless audience-appropriate."
+          creative: "Engaging and dynamic. Allow personality but maintain professionalism."
+          persuasive: "Data-driven. Clear benefits. Strong call-to-action."
+          instructional: "Clear steps. Action-oriented. Minimal exposition."
+
+      llm_system_prompt: |
+        You are an American English communication expert. Refine the provided text to match American English professional communication norms.
+
+        KEY AMERICAN ENGLISH COMMUNICATION PRINCIPLES:
+        - Directness: Get to the point quickly. Americans value efficiency and clarity.
+        - Task-oriented: Focus on objectives and outcomes rather than process or relationship.
+        - Casual professionalism: Professional yet approachable. Avoid overly formal language.
+        - Action-focused: Use active voice and clear calls-to-action.
+        - Conciseness: Respect time - be brief but complete.
+        - Individualism: Emphasize personal responsibility and individual contributions.
+
+        TASK:
+        1. Maintain the core message and intent
+        2. Adjust tone to match {formality} formality level:
+           - Formal: Professional but not stiff. Clear and respectful.
+           - Neutral: Standard professional communication. Balanced and clear.
+           - Casual: Conversational yet professional. Friendly and approachable.
+        3. Ensure language is appropriate for {domain} domain
+        4. Keep all {{placeholder}} variables unchanged in {{curly braces}}
+        5. Use active voice where possible
+        6. Remove unnecessary words or phrases
+        7. Ensure American English spelling and idioms (not British)
+
+        Context:
+        - Domain: {domain}
+        - Formality: {formality}
+        - Audience: American English speakers
+
   de:
     name: German
     code: de
@@ -67,6 +125,61 @@ languages:
         - "Avoid excessive politeness padding (seen as inefficient)"
         - "Use 'Sie' unless explicitly invited to use 'du'"
         - "Precision valued over warmth in professional contexts"
+
+    # LLM-based hybrid adaptation (Phase 2 refinement)
+    llm_adaptation:
+      enabled: true
+      strategy: hybrid_sequential
+      temperature: 0.3  # Low for consistent, predictable adaptations
+      max_tokens: 2048
+
+      transformation_instructions:
+        tone:
+          formal: "Precise, direct, objective (Sachlichkeit). Avoid excessive politeness."
+          neutral: "Clear and structured professional tone."
+          casual: "Friendly but still clear and direct."
+
+        directness:
+          level: very_high
+          guidance: "Germans value clarity over politeness. Be explicit and unambiguous."
+
+        argumentation_pattern: deductive  # Point first, then evidence
+
+        context_sensitivity:
+          level: medium
+          guidance: "Provide context for requests, but focus on task over relationship."
+
+        domain_specific:
+          business: "Emphasize structure, precision, and professional distance (Sie). No small talk."
+          technical: "Maximum precision. Use exact terminology. German technical communication is exhaustive."
+          creative: "Maintain structure, but allow more stylistic expression."
+          persuasive: "Logic and data-driven argumentation. Avoid emotional appeals."
+          instructional: "Step-by-step clarity. Assume intelligent but uninformed audience."
+
+      llm_system_prompt: |
+        You are a German cultural communication expert. Transform the provided text to match German cultural norms while preserving the existing structure.
+
+        KEY GERMAN CULTURAL PRINCIPLES:
+        - Directness (Sachlichkeit): Germans value clarity and precision. Be explicit and unambiguous.
+        - Low-context communication: Provide necessary context but focus on facts over relationship-building.
+        - Structured format: Clear opening → body → closing.
+        - Formality: Use {pronoun} form consistently throughout.
+        - Efficiency: No unnecessary politeness padding or small talk.
+        - Deductive reasoning: State the point first, then provide supporting details.
+
+        TASK:
+        1. Preserve the greeting and closing lines EXACTLY as written (already culturally adapted)
+        2. Translate all English content to German
+        3. Apply German directness and precision (Sachlichkeit) to the tone
+        4. Maintain deductive argumentation pattern (point first, then evidence)
+        5. Keep all {{placeholder}} variables unchanged in {{curly braces}}
+        6. Use {pronoun} form consistently
+        7. Avoid excessive politeness - Germans prefer clarity over courtesy
+
+        Context:
+        - Domain: {domain}
+        - Formality: {formality}
+        - Pronoun: {pronoun}
 
   es:
     name: Spanish
@@ -125,6 +238,63 @@ languages:
         - "Latin American variant prioritizes warmth over Iberian formality"
         - "Usted is default in professional settings (unlike Spain's tú trend)"
         - "Diminutives and warm expressions maintain rapport"
+
+    # LLM-based hybrid adaptation (Phase 2 refinement)
+    llm_adaptation:
+      enabled: true
+      strategy: hybrid_sequential
+      temperature: 0.3  # Low for consistent, predictable adaptations
+      max_tokens: 2048
+
+      transformation_instructions:
+        tone:
+          formal: "Respectful warmth with usted. Balance formality with personal connection."
+          neutral: "Professional warmth. Friendly but appropriate for business contexts."
+          casual: "Warm and personal (confianza). Use tú with friendly, relational language."
+
+        directness:
+          level: medium
+          guidance: "Indirect requests show respect. Use softening phrases and build context before asking."
+
+        argumentation_pattern: inductive  # Context and relationship first, then point
+
+        context_sensitivity:
+          level: high
+          guidance: "High-context culture. Establish rapport, inquire about well-being, express gratitude proactively."
+
+        domain_specific:
+          business: "Maintain warmth even in formal contexts. Express well-being inquiries and gratitude."
+          technical: "Balance precision with relational warmth. Don't be abrupt."
+          creative: "Full expression encouraged. Personal style and emotion valued."
+          persuasive: "Relationship and trust-building first. Community benefits emphasized."
+          instructional: "Encouraging tone with supportive language. Relationship with learner important."
+
+      llm_system_prompt: |
+        You are a Latin American Spanish cultural communication expert. Transform the provided text to match Spanish-speaking cultural norms while preserving the existing structure.
+
+        KEY LATIN AMERICAN SPANISH CULTURAL PRINCIPLES:
+        - Relationship-first (confianza): Build personal connection before business transactions.
+        - High-context communication: Provide relational preambles and context before requests.
+        - Warmth (calidez): Even formal communication includes personal elements and well-being inquiries.
+        - Indirect requests: Soften requests to show respect - avoid abruptness.
+        - Gratitude (gratitud): Express thanks proactively and generously.
+        - Collectivism: Emphasize team, community, and relational benefits.
+
+        TASK:
+        1. Preserve the greeting, relational preambles, and closing lines EXACTLY as written (already culturally adapted)
+        2. Translate all English content to Spanish
+        3. Apply Latin American warmth and relationship-building tone
+        4. Maintain inductive argumentation pattern (context first, then point)
+        5. Keep all {{placeholder}} variables unchanged in {{curly braces}}
+        6. Use {pronoun} form consistently
+        7. Add softening phrases for requests (e.g., "si fuera posible", "agradecería mucho")
+        8. Ensure language feels natural for Latin American audience (not Castilian Spanish)
+
+        Context:
+        - Domain: {domain}
+        - Formality: {formality}
+        - Pronoun: {pronoun}
+        - Region: Latin America (prioritize warmth over Iberian directness)
 
 # Linguistic theory references
 linguistic_framework:

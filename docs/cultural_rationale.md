@@ -207,6 +207,134 @@ Many languages use different pronouns based on formality (Tu/Vous distinction):
 
 ---
 
+## Two-Phase Hybrid Adaptation Strategy
+
+### Rationale for Hybrid Approach
+
+While the linguistic theories described above provide the foundation for our cultural adaptations, we recognize that **programmatic rules alone cannot capture the full complexity of cultural communication**. Therefore, MPO implements a **two-phase hybrid strategy**:
+
+#### Phase 1: Programmatic Adaptation (Structural Foundation)
+
+**What it handles:**
+- Greetings and closings (e.g., "Sehr geehrte Damen und Herren" → "Mit freundlichen Grüßen")
+- Pronoun markers (Sie/du, usted/tú)
+- Structural preambles (e.g., Spanish relational opening: "Espero que se encuentre bien")
+- Formality-level scaffolding
+
+**Why programmatic works here:**
+- These elements follow **predictable patterns**
+- Can be **codified as rules** based on formality level
+- **Deterministic** (same input → same output)
+- **Fast and free** (no API calls)
+- **Explainable** (clear mapping from formality → greeting)
+
+#### Phase 2: LLM Refinement (Cultural Nuance)
+
+**What it handles:**
+- **Tone adjustment**: German Sachlichkeit (objectivity) vs. Spanish calidez (warmth)
+- **Argumentation patterns**: Deductive (German: point first) vs. inductive (Spanish: context first)
+- **Idiomatic expression**: Natural phrasing that feels culturally authentic
+- **Domain adaptation**: Business vs. technical vs. creative tone
+- **Contextual appropriateness**: Subtle cultural markers that vary by situation
+
+**Why LLM refinement is necessary:**
+- These nuances are **context-dependent** and hard to codify
+- Requires **understanding of semantic relationships** beyond surface patterns
+- Benefits from **large-scale language modeling** trained on diverse texts
+- Can adapt to **domain-specific requirements** (business formality differs from creative writing)
+
+### Hybrid Workflow Example
+
+Let's trace a German formal business email through both phases:
+
+**Input Template:**
+```
+I need to request an extension for the project deadline due to unforeseen circumstances.
+```
+
+**After Phase 1 (Programmatic Adaptation):**
+```
+Sehr geehrte Damen und Herren
+
+Ich möchte Sie um Folgendes bitten:
+
+I need to request an extension for the project deadline due to unforeseen circumstances.
+
+Mit freundlichen Grüßen
+```
+
+**What Phase 1 accomplished:**
+- ✅ Added formal German greeting
+- ✅ Added context-setting preamble ("Ich möchte Sie um Folgendes bitten")
+- ✅ Added formal closing
+- ❌ **But:** Content still in English, lacks German directness (Sachlichkeit)
+
+**After Phase 2 (LLM Cultural Refinement):**
+```
+Sehr geehrte Damen und Herren
+
+Ich möchte Sie um Folgendes bitten:
+
+Hiermit beantrage ich eine Fristverlängerung für das Projekt aufgrund unvorhergesehener Umstände.
+Die ursprüngliche Deadline war der 15. März. Ich schlage den 30. März als neuen Abgabetermin vor.
+
+Bitte bestätigen Sie, ob diese Verlängerung möglich ist.
+
+Mit freundlichen Grüßen
+```
+
+**What Phase 2 accomplished:**
+- ✅ Translated to German
+- ✅ Applied **Sachlichkeit** (matter-of-fact tone)
+- ✅ Added **specificity** (dates, proposed timeline) - German cultural expectation
+- ✅ Used **deductive pattern** (request first, then reason)
+- ✅ Direct closing request (no excessive politeness padding)
+- ✅ Preserved programmatic scaffolding (greeting/closing intact)
+
+### Why Not LLM-Only?
+
+One might ask: why not skip programmatic adaptation and let the LLM handle everything?
+
+**Reasons for retaining programmatic Phase 1:**
+
+1. **Determinism**: Greetings/closings should be consistent and predictable
+2. **Cost**: Programmatic is free; LLM costs ~$0.002-0.01 per adaptation
+3. **Speed**: Programmatic is instant; LLM adds 1-2 seconds latency
+4. **Transparency**: Easy to audit and explain rule-based transformations
+5. **Reliability**: LLM might occasionally generate inconsistent greetings
+6. **Graceful fallback**: If LLM fails, programmatic output is still culturally appropriate
+
+### Configuration-Driven Hybrid Mode
+
+Each language in `config/languages.yaml` specifies whether LLM refinement is enabled:
+
+```yaml
+de:
+  name: German
+  llm_adaptation:
+    enabled: true  # Hybrid mode
+    strategy: hybrid_sequential
+    temperature: 0.3  # Low for consistency
+    transformation_instructions:
+      directness:
+        level: very_high
+        guidance: "Germans value clarity over politeness. Be explicit."
+```
+
+If `enabled: false`, only programmatic adaptation runs (Phase 1 only).
+
+### Theoretical Grounding Maintained
+
+Importantly, the **LLM instructions are themselves grounded in linguistic theory**:
+
+- German LLM prompt emphasizes **Sachlichkeit** (House, 2006)
+- Spanish LLM prompt emphasizes **confianza and calidez** (Fant, 1989)
+- English LLM prompt emphasizes **directness and efficiency** (Hall, 1976)
+
+This ensures that even the LLM-generated content adheres to the cultural communication frameworks described in this document.
+
+---
+
 ## Theoretical Implications for AI/LLM Prompts
 
 ### Why This Matters for LLMs

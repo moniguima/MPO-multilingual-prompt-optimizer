@@ -42,12 +42,30 @@ class PromptEvaluator:
         self._adapters = {}
 
     def _get_adapter(self, language_code: str):
-        """Get or create cached adapter for language."""
+        """
+        Get or create cached adapter for language.
+
+        Passes LLM provider to adapter if LLM adaptation is enabled.
+        """
         if language_code not in self._adapters:
             if language_code not in self.language_configs:
                 raise ValueError(f"No configuration found for language: {language_code}")
+
             config = self.language_configs[language_code]
-            self._adapters[language_code] = get_adapter(language_code, config)
+
+            # Check if language uses LLM adaptation
+            llm_config = config.get('llm_adaptation', {})
+            needs_provider = llm_config.get('enabled', False)
+
+            # Pass provider if LLM adaptation is enabled for this language
+            provider = self.provider if needs_provider else None
+
+            self._adapters[language_code] = get_adapter(
+                language_code,
+                config,
+                provider
+            )
+
         return self._adapters[language_code]
 
     def adapt_prompt(
