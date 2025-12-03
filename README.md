@@ -75,7 +75,7 @@ mpo test business_email --language de --formality formal --demo
 ```
 
 #### Option 2: Anthropic Claude API (Best Quality)
-High-quality cultural adaptation - **costs ~$1-2 for full benchmark**:
+High-quality cultural adaptation - **costs ~$3 for full benchmark**:
 ```bash
 # Add your API key to .env
 cp .env.example .env
@@ -107,7 +107,7 @@ mpo benchmark --provider local
 | Provider | Cost | Quality | Speed | Setup |
 |----------|------|---------|-------|-------|
 | **Demo** | Free | Good | Instant | None |
-| **Anthropic** | ~$1-2 | Excellent | Fast | API key |
+| **Anthropic** | ~$3 | Excellent | Fast | API key |
 | **LMStudio** | Free | Good | Medium | Install app |
 
 For detailed LMStudio setup, see [docs/LMSTUDIO_SETUP.md](docs/LMSTUDIO_SETUP.md)
@@ -131,7 +131,7 @@ multilingual-prompt-optimizer/
 │   └── ui/                # Gradio demo interface
 ├── config/                # Language configs, prompt metadata
 │   └── languages.yaml     # Cultural params + LLM adaptation configs
-├── prompts/templates/     # 5 seed prompts (business, technical, etc.)
+├── prompts/templates/     # 10 prompt templates (business, marketing, technical, creative, etc.)
 ├── data/cache/            # Pre-generated demo responses
 └── tests/                 # pytest suite
 ```
@@ -175,9 +175,9 @@ mpo test business_email --provider anthropic --live  # Use Claude API
 mpo test business_email --provider local --live      # Use LMStudio
 mpo test business_email --demo                       # Use cached responses
 
-# Run full benchmark (45 evaluations: 5 prompts × 3 languages × 3 formality levels)
+# Run full benchmark (90 evaluations: 10 prompts × 3 languages × 3 formality levels)
 mpo benchmark --demo              # Uses cached responses (free, instant)
-mpo benchmark --live              # Uses Anthropic API (~$1-2)
+mpo benchmark --live              # Uses Anthropic API (~$3)
 mpo benchmark --provider local    # Uses LMStudio (free, slower)
 
 # Generate comparison reports
@@ -207,12 +207,25 @@ mpo cache-status
 
 ## 🧪 Methodology
 
-### Prompt Templates (5)
+### Prompt Templates (10)
+
+**Professional Communication:**
 1. **Business Email** - Timeline extension request
-2. **Technical Explanation** - RAG architecture for executives
-3. **Creative Writing** - Mystery novel opening
-4. **Persuasive Pitch** - Tool adoption proposal
-5. **Instructional Guide** - Git tutorial for beginners
+2. **Persuasive Pitch** - Tool adoption proposal
+
+**Marketing & Product:**
+3. **Email Marketing** - Product launch announcement
+4. **Social Media Ad** - Promotional campaign copy
+5. **Product Copy** - Feature description for e-commerce
+6. **Push Notification** - Time-sensitive user engagement
+7. **In-App Message** - Feature announcement or onboarding
+
+**Technical & Educational:**
+8. **Technical Explanation** - RAG architecture for executives
+9. **Instructional Guide** - Git tutorial for beginners
+
+**Creative:**
+10. **Creative Story** - Mystery novel opening
 
 ### Languages (3)
 - **English** (baseline) - American English, task-oriented
@@ -310,35 +323,46 @@ AI-enhanced adaptation for complex elements:
 ## 📊 Sample Output
 
 ```bash
-$ mpo test business_email --language de --formality formal --demo
+$ mpo test business_email --language de --formality formal --provider openai --live
 
 📝 Testing prompt: business_email
    Language: de | Formality: formal
-   Mode: 🟢 DEMO
+   Provider: openai
+   Mode: 🔴 LIVE
 
 🔄 Adapted Prompt:
 Sehr geehrte Damen und Herren
+Ich möchte Sie um Folgendes bitten:
+I need to request an extension for the {project_name} project. The current deadline
+is {current_deadline}, but due to {reason}, I would like to request moving the
+deadline to {requested_deadline}. Could you please consider this request and let
+me know if this adjustment is possible?
 
-Ich möchte Sie höflich um Folgendes bitten:
+Mit freundlichen Grüßen
 
-I need to request an extension for the Q4 Marketing Campaign project...
+📋 Adaptation notes: Programmatic-only adaptation (de): Rule-based cultural
+transformations. Domain: business, Formality: formal
 
-Hochachtungsvoll
+🤖 Using OpenAI API - Model: gpt-4-turbo-preview
 
-📋 Adaptation notes: Added German greeting: 'Sehr geehrte Damen und Herren';
-Added formal request preamble; Content adapted to German directness (using Sie form);
-Added German closing: 'Hochachtungsvoll'; Maintained high directness
-
-✅ Retrieved from cache
+🚀 Generating response...
+💾 Cached for future demo use
 
 🤖 LLM Response:
-[Culturally-appropriate German response...]
+Sehr geehrte Damen und Herren
+Ich möchte Sie um Folgendes bitten:
+Ich muss eine Fristverlängerung für das {project_name} Projekt beantragen. Die
+aktuelle Frist ist der {current_deadline}, aber aufgrund von {reason} möchte ich
+darum bitten, die Frist auf den {requested_deadline} zu verschieben. Könnten Sie
+bitte diese Anfrage prüfen und mich wissen lassen, ob diese Anpassung möglich ist?
+
+Mit freundlichen Grüßen
 
 📊 Metrics:
-   Tokens (in/out): 156/234
-   Words: 87
-   Sentences: 6
-   Lexical diversity: 0.742
+   Tokens (in/out): 194/108
+   Words: 59
+   Sentences: 4
+   Lexical diversity: 0.831
    Cultural appropriateness: Excellent
 ```
 
@@ -348,8 +372,8 @@ Added German closing: 'Hochachtungsvoll'; Maintained high directness
 
 ### ✅ MVP (Current)
 - [x] 3 languages (EN, DE, ES)
-- [x] 5 diverse prompts
-- [x] Cultural adaptation logic
+- [x] 10 diverse prompts (business, marketing, technical, creative)
+- [x] Hybrid adaptation system (programmatic + LLM refinement)
 - [x] Quantitative + qualitative metrics
 - [x] CLI tool with demo mode
 - [x] Experiment tracking
